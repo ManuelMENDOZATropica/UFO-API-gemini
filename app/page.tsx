@@ -41,10 +41,11 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [mood, setMood] = useState<Mood>("neutral");
   const endRef = useRef<HTMLDivElement>(null);
+  const npcMessages = messages.filter(message => message.role === "npc");
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [npcMessages.length]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -122,194 +123,139 @@ export default function HomePage() {
   };
 
   return (
-    <main className="container">
-      <section className="card">
-        <header className="hero">
-          <div className="portrait">
-            <Image
-              src={moodArt[mood].src}
-              alt={moodArt[mood].alt}
-              width={240}
-              height={240}
-              priority
-            />
-          </div>
-          <div className="headline">
-            <h1>Oráculo Gemini</h1>
-            <p>
-              Un NPC visionario canaliza la inteligencia de Gemini para evaluar ideas, enseñar
-              métricas de marketing y predecir tu futuro creativo.
-            </p>
-          </div>
-        </header>
-
-        <div className="chat" role="log" aria-live="polite">
-          {messages.map(message => (
-            <article
-              key={message.id}
-              className={`bubble bubble-${message.role} ${
-                message.tone === "question" ? "bubble-question" : ""
-              }`}
-            >
-              <p>{message.text}</p>
-            </article>
-          ))}
-          <div ref={endRef} />
-        </div>
-
-        <form className="composer" onSubmit={handleSubmit}>
-          <label htmlFor="idea" className="sr-only">
-            Escribe tu idea o responde al oráculo
-          </label>
-          <input
-            id="idea"
-            name="idea"
-            placeholder="Comparte una idea deslumbrante o responde sus preguntas..."
-            value={input}
-            onChange={event => setInput(event.target.value)}
-            disabled={isLoading}
-            autoComplete="off"
-          />
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Canalizando..." : "Enviar"}
-          </button>
-        </form>
-
-        <footer className="footer">
-          <p>
-            Consejo: describe indicadores como CAC, LTV o CTR para impresionar al oráculo y desbloquear
-            visiones más felices.
+    <main className="scene">
+      <div className="responses" role="log" aria-live="polite">
+        {npcMessages.map(message => (
+          <p
+            key={message.id}
+            className={`response ${message.tone === "question" ? "response-question" : ""}`}
+          >
+            {message.text}
           </p>
-        </footer>
-      </section>
+        ))}
+        <div ref={endRef} />
+      </div>
+
+      <div className="avatar">
+        <Image
+          src={moodArt[mood].src}
+          alt={moodArt[mood].alt}
+          width={280}
+          height={280}
+          priority
+        />
+      </div>
+
+      <form className="composer" onSubmit={handleSubmit}>
+        <label htmlFor="idea" className="sr-only">
+          Escribe tu idea o responde al oráculo
+        </label>
+        <input
+          id="idea"
+          name="idea"
+          placeholder="Comparte una idea deslumbrante o responde sus preguntas..."
+          value={input}
+          onChange={event => setInput(event.target.value)}
+          disabled={isLoading}
+          autoComplete="off"
+        />
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Canalizando..." : "Enviar"}
+        </button>
+      </form>
 
       <style jsx>{`
-        .container {
-          width: min(960px, 100%);
-          padding: 24px;
-        }
-
-        .card {
-          background: rgba(4, 7, 19, 0.85);
-          border: 1px solid rgba(148, 163, 184, 0.2);
-          border-radius: 32px;
-          padding: 32px;
-          display: grid;
-          gap: 24px;
-          backdrop-filter: blur(12px);
-          box-shadow: 0 20px 60px rgba(15, 23, 42, 0.55);
-        }
-
-        .hero {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 24px;
-          align-items: center;
-        }
-
-        .portrait {
-          flex: 0 0 240px;
-          display: flex;
-          justify-content: center;
-        }
-
-        .headline {
-          flex: 1;
-        }
-
-        h1 {
-          margin: 0 0 8px;
-          font-size: clamp(2rem, 3vw, 2.5rem);
-        }
-
-        p {
-          margin: 0;
-          line-height: 1.6;
-        }
-
-        .chat {
+        .scene {
+          width: min(680px, 100%);
+          margin: 0 auto;
+          padding: 56px 16px 48px;
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          align-items: center;
+          gap: 32px;
+          text-align: center;
+        }
+
+        .responses {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
           max-height: 360px;
           overflow-y: auto;
-          padding-right: 8px;
+          padding: 0 8px;
         }
 
-        .bubble {
-          padding: 16px 18px;
-          border-radius: 20px;
-          font-size: 0.95rem;
-          line-height: 1.5;
-          letter-spacing: 0.01em;
-          transition: transform 0.3s ease;
+        .response {
+          margin: 0;
+          font-size: 0.8rem;
+          line-height: 1.6;
+          letter-spacing: 0.08em;
+          color: rgba(248, 250, 252, 0.9);
+          text-shadow: 0 0 8px rgba(15, 118, 110, 0.45);
         }
 
-        .bubble-user {
-          align-self: flex-end;
-          background: linear-gradient(135deg, rgba(56, 189, 248, 0.85), rgba(14, 116, 144, 0.85));
-          color: #0f172a;
+        .response-question {
+          color: #facc15;
+          text-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
         }
 
-        .bubble-npc {
-          align-self: flex-start;
-          background: rgba(15, 23, 42, 0.75);
-          border: 1px solid rgba(148, 163, 184, 0.3);
-        }
-
-        .bubble-question {
-          border-color: rgba(251, 191, 36, 0.6);
-          box-shadow: 0 0 12px rgba(251, 191, 36, 0.15);
+        .avatar {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 12px;
+          border: 2px solid rgba(148, 163, 184, 0.4);
+          background: rgba(8, 11, 27, 0.65);
+          box-shadow: 0 0 24px rgba(14, 116, 144, 0.45);
         }
 
         .composer {
+          width: 100%;
           display: grid;
           grid-template-columns: 1fr auto;
-          gap: 12px;
+          gap: 16px;
           align-items: center;
         }
 
         .composer input {
-          border-radius: 999px;
-          border: 1px solid rgba(148, 163, 184, 0.4);
-          padding: 14px 18px;
-          font-size: 1rem;
-          background: rgba(15, 23, 42, 0.65);
+          border: 2px solid rgba(148, 163, 184, 0.6);
+          background: rgba(4, 7, 19, 0.85);
           color: inherit;
+          padding: 18px 16px 14px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          font-size: 0.65rem;
         }
 
         .composer input:focus {
           outline: none;
-          border-color: rgba(96, 165, 250, 0.85);
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+          border-color: #38bdf8;
+          box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
         }
 
         .composer button {
-          border-radius: 999px;
-          border: none;
-          padding: 14px 26px;
-          background: linear-gradient(135deg, rgba(236, 72, 153, 0.85), rgba(59, 130, 246, 0.85));
-          color: #0f172a;
-          font-weight: 600;
+          border: 2px solid rgba(56, 189, 248, 0.8);
+          background: rgba(15, 23, 42, 0.9);
+          color: #38bdf8;
+          padding: 16px 24px 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          font-size: 0.65rem;
           cursor: pointer;
           transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
+        .composer button:not(:disabled):hover {
+          transform: translateY(-2px);
+          box-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+        }
+
         .composer button:disabled {
+          opacity: 0.6;
           cursor: not-allowed;
-          opacity: 0.7;
           transform: none;
           box-shadow: none;
-        }
-
-        .composer button:not(:disabled):hover {
-          transform: translateY(-1px);
-          box-shadow: 0 12px 30px rgba(59, 130, 246, 0.35);
-        }
-
-        .footer {
-          font-size: 0.85rem;
-          color: rgba(226, 232, 240, 0.8);
         }
 
         .sr-only {
@@ -325,16 +271,22 @@ export default function HomePage() {
         }
 
         @media (max-width: 720px) {
-          .card {
-            padding: 24px;
+          .scene {
+            padding-top: 32px;
+            gap: 24px;
           }
 
-          .portrait {
-            flex: 1 1 100%;
+          .responses {
+            max-height: 280px;
           }
 
-          .chat {
-            max-height: 420px;
+          .composer {
+            grid-template-columns: 1fr;
+          }
+
+          .composer button {
+            justify-self: center;
+            width: 100%;
           }
         }
       `}</style>
