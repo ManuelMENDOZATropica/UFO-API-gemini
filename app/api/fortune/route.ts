@@ -60,13 +60,20 @@ export async function POST(request: Request) {
   try {
     const model = genAI.getGenerativeModel({
       model: "gemini-1.5-pro",
-      systemInstruction: SYSTEM_INSTRUCTION,
       generationConfig: {
         temperature: 0.85
       }
     });
 
-    const result = await model.generateContent({ contents: history });
+    const result = await model.generateContent({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: SYSTEM_INSTRUCTION }]
+        },
+        ...history
+      ]
+    });
     const rawText = result.response.text();
     const sanitized = rawText
       .trim()
