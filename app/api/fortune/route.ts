@@ -62,23 +62,38 @@ export async function POST(request: Request) {
       model: "gemini-1.5-pro",
       systemInstruction: SYSTEM_INSTRUCTION,
       generationConfig: {
-        temperature: 0.85,
-        responseMimeType: "application/json"
+        temperature: 0.85
       }
     });
 
     const result = await model.generateContent({ contents: history });
     const rawText = result.response.text();
-    const parsed: FortunePayload = JSON.parse(rawText);
+    const sanitized = rawText
+      .trim()
+      .replace(/^```json\s*/i, "")
+      .replace(/^```/, "")
+      .replace(/```$/, "")
+      .trim();
+
+    if (!sanitized) {
+      throw new Error("Respuesta vacía de Gemini");
+    }
+    const parsed: FortunePayload = JSON.parse(sanitized);
+
+    if (typeof parsed.message !== "string") {
+      throw new Error("Respuesta sin mensaje válido");
+    }
 
     const mood: Mood = ["happy", "angry", "neutral"].includes(parsed.mood)
       ? parsed.mood
       : "neutral";
+    const followUpQuestion =
+      typeof parsed.followUpQuestion === "string" ? parsed.followUpQuestion : null;
 
     return NextResponse.json(
       {
         message: parsed.message,
-        followUpQuestion: parsed.followUpQuestion ?? null,
+        followUpQuestion,
         mood
       },
       { status: 200 }
