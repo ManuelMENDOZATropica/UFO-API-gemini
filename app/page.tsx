@@ -33,7 +33,7 @@ const initialMessage: ChatMessage = {
   role: "npc",
   tone: "statement",
   text:
-    "Bienvenido al Templo Ricotero. Soy el Duende del Destino y leo el porvenir según la mística de los Redondos. Decime cuál es tu canción ricotera preferida y sabremos si sos alma ricotera o apenas un polizón."
+    "Bienvenido al Templo Ricotero casjkhd<shjkc<hjk<asfhjksfkhjdsf. Soy el Duende del Destino y leo el porvenir según la mística de los Redondos. Decime cuál es tu canción ricotera preferida y sabremos si sos alma ricotera o apenas un polizón."
 };
 
 export default function HomePage() {
