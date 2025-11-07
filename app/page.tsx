@@ -141,8 +141,8 @@ export default function HomePage() {
         <Image
           src={moodArt[mood].src}
           alt={moodArt[mood].alt}
-          width={280}
-          height={280}
+          width={322}
+          height={322}
           priority
         />
       </div>
@@ -194,11 +194,15 @@ export default function HomePage() {
           letter-spacing: 0.08em;
           color: rgba(248, 250, 252, 0.9);
           text-shadow: 0 0 8px rgba(15, 118, 110, 0.45);
+          background-color: rgba(100, 116, 139, 0.4);
+          padding: 12px 16px;
+          border-radius: 12px;
         }
 
         .response-question {
           color: #facc15;
           text-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+          background-color: rgba(71, 85, 105, 0.55);
         }
 
         .avatar {
@@ -206,9 +210,6 @@ export default function HomePage() {
           justify-content: center;
           align-items: center;
           padding: 12px;
-          border: 2px solid rgba(148, 163, 184, 0.4);
-          background: rgba(8, 11, 27, 0.65);
-          box-shadow: 0 0 24px rgba(14, 116, 144, 0.45);
         }
 
         .composer {
@@ -245,6 +246,7 @@ export default function HomePage() {
           font-size: 0.65rem;
           cursor: pointer;
           transition: transform 0.2s ease, box-shadow 0.2s ease;
+          border-radius: 9999px;
         }
 
         .composer button:not(:disabled):hover {
