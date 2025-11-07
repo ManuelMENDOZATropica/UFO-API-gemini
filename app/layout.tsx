@@ -8,8 +8,9 @@ const pressStart = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "Oráculo Gemini",
-  description: "Consulta a un NPC impulsado por Gemini para evaluar ideas y métricas."
+  title: "Oráculo Ricotero",
+  description:
+    "Conversá con un NPC ricotero que usa la API de Gemini para profetizar tu destino."
 };
 
 export default function RootLayout({
