@@ -1,6 +1,6 @@
-# Oráculo Gemini
+# Oráculo Ricotero
 
-Aplicación web creada con Next.js que permite conversar con **Asterión**, un NPC que utiliza la API de Gemini para evaluar ideas creativas y guiarte con preguntas sobre métricas de marketing y performance.
+Aplicación web creada con Next.js que permite conversar con el **Duende del Destino Ricotero**, un NPC que utiliza la API de Gemini para leer tu futuro rockero. Te evalúa según tu canción favorita de Patricio Rey y sus Redonditos de Ricota y te desafía con preguntas sobre letras, integrantes y fechas históricas.
 
 ## Requisitos
 
@@ -29,7 +29,7 @@ GEMINI_API_KEY="tu_clave_de_gemini"
 npm run dev
 ```
 
-Abre [http://localhost:3000](http://localhost:3000) para interactuar con el oráculo.
+Abre [http://localhost:3000](http://localhost:3000) para interactuar con el oráculo ricotero.
 
 ## Despliegue en Vercel
 

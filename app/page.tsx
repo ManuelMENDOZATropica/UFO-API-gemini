@@ -16,15 +16,15 @@ type ChatMessage = {
 const moodArt: Record<Mood, { src: string; alt: string }> = {
   neutral: {
     src: "/assets/moodNesutro.png",
-    alt: "Astronauta neutral"
+    alt: "Duende ricotero pensativo"
   },
   happy: {
     src: "/assets/moodFeliz.png",
-    alt: "Astronauta feliz"
+    alt: "Duende ricotero exaltado"
   },
   angry: {
     src: "/assets/moodFurioso.png",
-    alt: "Astronauta furioso"
+    alt: "Duende ricotero indignado"
   }
 };
 
@@ -32,7 +32,8 @@ const initialMessage: ChatMessage = {
   id: "intro",
   role: "npc",
   tone: "statement",
-  text: "Salud viajero cósmico. Soy Asterión, el oráculo interestelar. Cuéntame tu idea más creativa y revelaré si el destino la aprueba."
+  text:
+    "Bienvenido al Templo Ricotero. Soy el Duende del Destino y leo el porvenir según la mística de los Redondos. Decime cuál es tu canción ricotera preferida y sabremos si sos alma ricotera o apenas un polizón."
 };
 
 export default function HomePage() {
@@ -113,7 +114,7 @@ export default function HomePage() {
         role: "npc",
         tone: "statement",
         mood: "angry",
-        text: "Los vientos solares se han cruzado. Intenta nuevamente más tarde."
+        text: "Los tambores del pogo se desacompasaron. Probá de nuevo en un toque."
       };
       setMessages(prev => [...prev, fallbackMessage]);
       setMood("angry");
@@ -148,19 +149,19 @@ export default function HomePage() {
 
       <form className="composer" onSubmit={handleSubmit}>
         <label htmlFor="idea" className="sr-only">
-          Escribe tu idea o responde al oráculo
+          Contale tu canción ricotera o respondé al oráculo
         </label>
         <input
           id="idea"
           name="idea"
-          placeholder="Comparte una idea deslumbrante o responde sus preguntas..."
+          placeholder="Confesá tu canción ricotera o contestá su prueba..."
           value={input}
           onChange={event => setInput(event.target.value)}
           disabled={isLoading}
           autoComplete="off"
         />
         <button type="submit" disabled={isLoading}>
-          {isLoading ? "Canalizando..." : "Enviar"}
+          {isLoading ? "Invocando al Indio..." : "Consultar"}
         </button>
       </form>
 
